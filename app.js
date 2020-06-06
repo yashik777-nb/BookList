@@ -10,10 +10,10 @@ function Ui() {}
 
 Ui.prototype.addBookToList = function (book) {
   const list = document.getElementById("book-list");
-  //   Create Elelemt
+  // Create Elelemt
   const row = document.createElement("tr");
 
-  //   Insert Columns
+  // Insert Columns
   row.innerHTML = `
   <td>${book.title}</td>
   <td>${book.author}</td>
@@ -21,6 +21,12 @@ Ui.prototype.addBookToList = function (book) {
   <td><a href="#" class="delete">X</a></td>
   `;
   list.appendChild(row);
+};
+
+Ui.prototype.removeBookFromList = function (target) {
+  if (target.className === "delete") {
+    target.parentElement.parentElement.remove();
+  }
 };
 
 Ui.prototype.clearFields = function () {
@@ -47,6 +53,14 @@ Ui.prototype.showAlert = function (message, className) {
 
 // Event Listener
 document.getElementById("book-form").addEventListener("submit", createBook);
+
+document.getElementById("book-list").addEventListener("click", function (e) {
+  // create the UI
+  const ui = new Ui();
+  ui.removeBookFromList(e.target);
+  ui.showAlert("Book Removed", "success");
+  e.preventDefault();
+});
 
 // Create Book
 function createBook(e) {
